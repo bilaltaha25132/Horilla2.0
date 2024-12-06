@@ -12,5 +12,6 @@ class Notification(AbstractNotification):
     verb_fr = models.CharField(max_length=255, default="", null=True)
 
     class Meta(AbstractNotification.Meta):
+        db_table = 'ERP_HR_Notifications_Notification'  
         abstract = False
         swappable = swappable_setting("notifications", "Notification")

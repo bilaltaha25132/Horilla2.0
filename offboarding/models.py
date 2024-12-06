@@ -36,6 +36,9 @@ class Offboarding(HorillaModel):
     )
     objects = HorillaCompanyManager()
 
+    class Meta:
+        db_table = 'ERP_HR_Offboarding_Offboarding'  
+
     def __str__(self):
         return self.title
 
@@ -80,6 +83,9 @@ class OffboardingStage(HorillaModel):
     managers = models.ManyToManyField(Employee)
     sequence = models.IntegerField(default=0, editable=False)
 
+    class Meta:
+        db_table = 'ERP_HR_Offboarding_OffboardingStage'  
+
     def __str__(self) -> str:
         return str(self.title)
 
@@ -109,6 +115,10 @@ class OffboardingStageMultipleFile(HorillaModel):
     """
 
     attachment = models.FileField(upload_to="offboarding/attachments")
+    class Meta:
+        db_table = 'ERP_HR_Offboarding_OffboardingStageMultipleFile'  
+
+
 
 
 class OffboardingEmployee(HorillaModel):
@@ -130,6 +140,9 @@ class OffboardingEmployee(HorillaModel):
     objects = HorillaCompanyManager(
         related_company_field="employee_id__employee_work_info__company_id"
     )
+
+    class Meta:
+        db_table = 'ERP_HR_Offboarding_OffboardingEmployee'  
 
     def __str__(self) -> str:
         return self.employee_id.get_full_name()
@@ -158,6 +171,9 @@ class ResignationLetter(HorillaModel):
     objects = HorillaCompanyManager(
         related_company_field="employee_id__employee_work_info__company_id"
     )
+
+    class Meta:
+        db_table = 'ERP_HR_Offboarding_ResignationLetter'  
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
@@ -241,6 +257,7 @@ class OffboardingTask(HorillaModel):
     )
 
     class Meta:
+        db_table = 'ERP_HR_Offboarding_OffboardingTask'  
         unique_together = ["title", "stage_id"]
 
     def __str__(self) -> str:
@@ -275,6 +292,7 @@ class EmployeeTask(HorillaModel):
     )
 
     class Meta:
+        db_table = 'ERP_HR_Offboarding_EmployeeTask'  
         unique_together = ["employee_id", "task_id"]
 
     def save(self, *args, **kwargs):
@@ -305,6 +323,9 @@ class ExitReason(HorillaModel):
     )
     attachments = models.ManyToManyField(OffboardingStageMultipleFile)
 
+    class Meta:
+        db_table = 'ERP_HR_Offboarding_ExitReason'  
+
 
 class OffboardingNote(HorillaModel):
     """
@@ -326,6 +347,7 @@ class OffboardingNote(HorillaModel):
     )
 
     class Meta:
+        db_table = 'ERP_HR_Offboarding_OffboardingNote'  
         ordering = ["-created_at"]
 
     def save(self, *args, **kwargs):
@@ -345,3 +367,6 @@ class OffboardingGeneralSetting(HorillaModel):
 
     resignation_request = models.BooleanField(default=False)
     company_id = models.ForeignKey(Company, on_delete=models.CASCADE, null=True)
+
+    class Meta:
+        db_table = 'ERP_HR_Offboarding_OffboardingGeneralSetting'  
