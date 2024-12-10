@@ -62,6 +62,7 @@ class DepartmentManager(HorillaModel):
     objects = HorillaCompanyManager("manager__employee_work_info__company_id")
 
     class Meta:
+        db_table = 'ERP_HR_HelpDesk_DepartmentManager' 
         unique_together = ("department", "manager")
 
     def clean(self, *args, **kwargs):
@@ -78,6 +79,9 @@ class TicketType(HorillaModel):
         Company, null=True, editable=False, on_delete=models.PROTECT
     )
     objects = HorillaCompanyManager(related_company_field="company_id")
+
+    class Meta:
+        db_table = 'ERP_HR_HelpDesk_TicketType' 
 
     def __str__(self):
         return self.title
@@ -119,6 +123,7 @@ class Ticket(HorillaModel):
     )
 
     class Meta:
+        db_table = 'ERP_HR_HelpDesk_Ticket' 
         ordering = ["-created_date"]
 
     def clean(self, *args, **kwargs):
@@ -175,6 +180,7 @@ class ClaimRequest(HorillaModel):
     is_rejected = models.BooleanField(default=False)
 
     class Meta:
+        db_table = 'ERP_HR_HelpDesk_ClaimRequest' 
         unique_together = ("ticket_id", "employee_id")
 
     def __str__(self) -> str:
@@ -195,6 +201,9 @@ class Comment(HorillaModel):
         Employee, on_delete=models.DO_NOTHING, related_name="employee_comment"
     )
     date = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        db_table = 'ERP_HR_HelpDesk_Comment' 
 
     def __str__(self):
         return self.comment
@@ -243,6 +252,9 @@ class FAQCategory(HorillaModel):
     title = models.CharField(max_length=30)
     description = models.TextField(blank=True, null=True, max_length=255)
 
+    class Meta:
+        db_table = 'ERP_HR_HelpDesk_Attachment' 
+
     def __str__(self):
         return self.title
 
@@ -256,6 +268,9 @@ class FAQ(HorillaModel):
         Company, null=True, editable=False, on_delete=models.PROTECT
     )
     objects = HorillaCompanyManager(related_company_field="company_id")
+
+    class Meta:
+        db_table = 'ERP_HR_HelpDesk_FAQ' 
 
     def __str__(self):
         return self.question

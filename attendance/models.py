@@ -81,6 +81,8 @@ class AttendanceActivity(HorillaModel):
         Meta class to add some additional options
         """
 
+        db_table = 'ERP_HR_Attendance_AttendanceActivity'  
+
         ordering = ["-attendance_date", "employee_id__employee_first_name", "clock_in"]
 
     def duration(self):
@@ -104,6 +106,9 @@ class BatchAttendance(HorillaModel):
     """
     Batch attendance model
     """
+
+    class Meta:
+        db_table = 'ERP_HR_Attendance_BatchAttendance'  
 
     title = models.CharField(max_length=150)
 
@@ -232,6 +237,7 @@ class Attendance(HorillaModel):
         Meta class to add some additional options
         """
 
+        db_table = 'ERP_HR_Attendance_Attendance' 
         unique_together = ("employee_id", "attendance_date")
         permissions = [
             ("change_validateattendance", "Validate Attendance"),
@@ -565,6 +571,9 @@ class Attendance(HorillaModel):
 
 
 class AttendanceRequestFile(HorillaModel):
+    class Meta:
+        db_table = 'ERP_HR_Attendance_AttendanceRequestFile' 
+
     file = models.FileField(upload_to="attendance/request_files")
 
 
@@ -572,6 +581,9 @@ class AttendanceRequestComment(HorillaModel):
     """
     AttendanceRequestComment Model
     """
+
+    class Meta:
+        db_table = 'ERP_HR_Attendance_AttendanceRequestComment' 
 
     request_id = models.ForeignKey(Attendance, on_delete=models.CASCADE)
     employee_id = models.ForeignKey(Employee, on_delete=models.CASCADE)
@@ -647,6 +659,9 @@ class AttendanceOverTime(HorillaModel):
         """
         Meta class to add some additional options
         """
+
+        db_table = 'ERP_HR_Attendance_AttendanceOvertime' 
+
 
         unique_together = [("employee_id"), ("month"), ("year")]
         ordering = ["-year", "-month_sequence"]
@@ -785,6 +800,8 @@ class AttendanceLateComeEarlyOut(HorillaModel):
         Meta class to add some additional options
         """
 
+        db_table = 'ERP_HR_Attendance_AttendanceLateComeEarlyOut' 
+
         unique_together = [("attendance_id"), ("type")]
         ordering = ["-attendance_id__attendance_date"]
 
@@ -822,12 +839,18 @@ class AttendanceValidationCondition(HorillaModel):
         super().clean()
         if not self.id and AttendanceValidationCondition.objects.exists():
             raise ValidationError(_("You cannot add more conditions."))
+        
+    class Meta:
+        db_table = 'ERP_HR_Attendance_AttendanceValidationCondition' 
 
 
 class GraceTime(HorillaModel):
     """
     Model for saving Grace time
     """
+
+    class Meta:
+        db_table = 'ERP_HR_Attendance_GraceTime'
 
     allowed_time = models.CharField(
         default="00:00:00",
@@ -901,6 +924,9 @@ class AttendanceGeneralSetting(HorillaModel):
     AttendanceGeneralSettings
     """
 
+    class Meta:
+        db_table = 'ERP_HR_Attendance_AttendanceGeneralSetting'
+
     time_runner = models.BooleanField(default=True)
     company_id = models.ForeignKey(Company, on_delete=models.CASCADE, null=True)
 
@@ -970,6 +996,7 @@ if apps.is_installed("leave") and apps.is_installed("payroll"):
             return
 
         class Meta:
+            db_table = 'ERP_HR_Attendance_PenaltyAccount' 
             ordering = ["-created_at"]
 
     @receiver(post_save, sender=PenaltyAccount)
@@ -1102,6 +1129,10 @@ class WorkRecords(models.Model):
         super().clean()
         if not 0.0 <= self.day_percentage <= 1.0:
             raise ValidationError(_("Day percentage must be between 0.0 and 1.0"))
+        
+
+        class Meta:
+            db_table = 'ERP_HR_Attendance_WorkRecords' 
 
     def __str__(self):
         return (
@@ -1115,6 +1146,8 @@ class OverrideAttendances(Attendance):
     """
     Class to override Attendance model save method
     """
+    class Meta:
+            db_table = 'ERP_HR_Attendance_OverrideAttendance' 
 
     # Additional fields and methods specific to AnotherModel
     @receiver(post_save, sender=Attendance)

@@ -222,6 +222,8 @@ class BiometricDevices(HorillaModel):
         Meta class to add additional options
         """
 
+        db_table = 'ERP_HR_Biometric_BiometricDevices'  
+
         verbose_name = _("Biometric Device")
         verbose_name_plural = _("Biometric Devices")
 
@@ -255,6 +257,7 @@ class BiometricEmployees(models.Model):
         """
         Meta class to add additional options
         """
+        db_table = 'ERP_HR_Biometric_BiometricEmployees' 
 
         verbose_name = _("Employee in Biometric Device")
         verbose_name_plural = _("Employees in Biometric Device")
@@ -277,6 +280,9 @@ class COSECAttendanceArguments(models.Model):
         BiometricDevices, on_delete=models.CASCADE, null=True, blank=True
     )
     objects = models.Manager()
+
+    class Meta:
+        db_table = 'ERP_HR_Biometric_COSECAttendanceArguments' 
 
     def __str__(self):
         return f"{self.device_id} - {self.last_fetch_roll_ovr_count} - {self.last_fetch_seq_number}"

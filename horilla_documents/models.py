@@ -51,6 +51,9 @@ class DocumentRequest(HorillaModel):
         related_company_field="employee_id__employee_work_info__company_id"
     )
 
+    class Meta:
+        db_table = 'ERP_HR_Horilla_Documents_DocumentRequest'  
+
     def __str__(self):
         return self.title
 
@@ -79,6 +82,9 @@ class Document(HorillaModel):
     objects = HorillaCompanyManager(
         related_company_field="employee_id__employee_work_info__company_id"
     )
+
+    class Meta:
+        db_table = 'ERP_HR_Horilla_Documents_Document'  
 
     def __str__(self) -> str:
         return f"{self.title}"

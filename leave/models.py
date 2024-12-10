@@ -211,6 +211,7 @@ class LeaveType(HorillaModel):
     objects = HorillaCompanyManager(related_company_field="company_id")
 
     class Meta:
+        db_table = 'ERP_HR_Leave_LeaveType'  
         ordering = ["-id"]
 
     def get_avatar(self):
@@ -299,6 +300,9 @@ class Holiday(HorillaModel):
     )
     objects = HorillaCompanyManager(related_company_field="company_id")
 
+    class Meta:
+        db_table = 'ERP_HR_Leave_Holiday'  
+
     def __str__(self):
         return self.name
 
@@ -314,6 +318,7 @@ class CompanyLeave(HorillaModel):
     objects = HorillaCompanyManager(related_company_field="company_id")
 
     class Meta:
+        db_table = 'ERP_HR_Leave_CompanyLeave'  
         unique_together = ("based_on_week", "based_on_week_day")
 
     def __str__(self):
@@ -365,6 +370,7 @@ class AvailableLeave(HorillaModel):
     )
 
     class Meta:
+        db_table = 'ERP_HR_Leave_AvailableLeave'  
         unique_together = ("leave_type_id", "employee_id")
 
     def __str__(self):
@@ -575,6 +581,7 @@ class LeaveRequest(HorillaModel):
     )
 
     class Meta:
+        db_table = 'ERP_HR_Leave_LeaveRequest'  
         ordering = ["-id"]
 
     def tracking(self):
@@ -947,6 +954,8 @@ class LeaveRequest(HorillaModel):
 
 class LeaverequestFile(models.Model):
     file = models.FileField(upload_to="leave/request_files")
+    class Meta:
+        db_table = 'ERP_HR_Leave_LeaveRequestFile'  
 
 
 class LeaverequestComment(HorillaModel):
@@ -958,6 +967,9 @@ class LeaverequestComment(HorillaModel):
     employee_id = models.ForeignKey(Employee, on_delete=models.CASCADE)
     files = models.ManyToManyField(LeaverequestFile, blank=True)
     comment = models.TextField(null=True, verbose_name=_("Comment"), max_length=255)
+
+    class Meta:
+        db_table = 'ERP_HR_Leave_LeaveRequestComment'  
 
     def __str__(self) -> str:
         return f"{self.comment}"
@@ -993,6 +1005,7 @@ class LeaveAllocationRequest(HorillaModel):
     )
 
     class Meta:
+        db_table = 'ERP_HR_Leave_LeaveAllocationRequest'  
         ordering = ["-id"]
 
     def __str__(self):
@@ -1034,6 +1047,9 @@ class LeaveallocationrequestComment(HorillaModel):
     files = models.ManyToManyField(LeaverequestFile, blank=True)
     comment = models.TextField(null=True, verbose_name=_("Comment"), max_length=255)
 
+    class Meta:
+        db_table = 'ERP_HR_Leave_LeaveAllocationRequestComment'  
+
     def __str__(self) -> str:
         return f"{self.comment}"
 
@@ -1044,6 +1060,9 @@ class LeaveRequestConditionApproval(models.Model):
     is_rejected = models.BooleanField(default=False)
     leave_request_id = models.ForeignKey(LeaveRequest, on_delete=models.CASCADE)
     manager_id = models.ForeignKey(Employee, on_delete=models.CASCADE)
+
+    class Meta:
+        db_table = 'ERP_HR_Leave_LeaveRequestConditionApproval'  
 
 
 class RestrictLeave(HorillaModel):
@@ -1091,6 +1110,9 @@ class RestrictLeave(HorillaModel):
     )
     objects = HorillaCompanyManager(related_company_field="company_id")
 
+    class Meta:
+        db_table = 'ERP_HR_Leave_RestrictLeave'  
+
     def __str__(self) -> str:
         return f"{self.title}"
 
@@ -1128,6 +1150,7 @@ if apps.is_installed("attendance"):
         )
 
         class Meta:
+            db_table = 'ERP_HR_Leave_CompensatoryLeaveRequest'  
             ordering = ["-id"]
 
         def __str__(self):
@@ -1177,6 +1200,9 @@ class LeaveGeneralSetting(HorillaModel):
     objects = models.Manager()
     company_id = models.ForeignKey(Company, on_delete=models.CASCADE, null=True)
 
+    class Meta:
+        db_table = 'ERP_HR_Leave_LeaveGeneralSetting'  
+
 
 if apps.is_installed("attendance"):
 
@@ -1192,12 +1218,17 @@ if apps.is_installed("attendance"):
         files = models.ManyToManyField(LeaverequestFile, blank=True)
         comment = models.TextField(null=True, verbose_name=_("Comment"), max_length=255)
 
+        class Meta:
+           db_table = 'ERP_HR_Leave_CompensatoryLeaveRequestComment'  
+
         def __str__(self) -> str:
             return f"{self.comment}"
 
 
 class EmployeePastLeaveRestrict(HorillaModel):
     enabled = models.BooleanField(default=True)
+    class Meta:
+        db_table = 'ERP_HR_Leave_EmployeePastLeaveRestrict'  
 
 
 if apps.is_installed("attendance"):
@@ -1206,6 +1237,9 @@ if apps.is_installed("attendance"):
         """
         Class to override Attendance model save method
         """
+
+        class Meta:
+          db_table = 'ERP_HR_Leave_OverrideLeaveRequests'   
 
         # Additional fields and methods specific to AnotherModel
         @receiver(pre_save, sender=LeaveRequest)

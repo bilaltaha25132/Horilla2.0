@@ -44,6 +44,7 @@ class OnboardingStage(HorillaModel):
         """
         Meta class for additional options
         """
+        db_table = 'ERP_HR_Onboarding_OnboardingStage'  
 
         ordering = ["sequence"]
 
@@ -86,6 +87,9 @@ class OnboardingTask(HorillaModel):
 
     objects = HorillaCompanyManager("stage_id__recruitment_id__company_id")
 
+    class Meta:
+        db_table = 'ERP_HR_Onboarding_OnboardingTask'  
+
     def __str__(self):
         return f"{self.task_title}"
 
@@ -125,6 +129,7 @@ class CandidateStage(HorillaModel):
         """
         Meta class for additional options
         """
+        db_table = 'ERP_HR_Onboarding_CandidateStage'  
 
         verbose_name = _("Candidate Onboarding stage")
         ordering = ["sequence"]
@@ -171,6 +176,7 @@ class CandidateTask(HorillaModel):
         """
         Meta class to add some additional options
         """
+        db_table = 'ERP_HR_Onboarding_CandidateTask'  
 
         verbose_name = _("Candidate onboarding task")
         # unique_together = ("candidate_id", "onboarding_task_id")
@@ -189,6 +195,9 @@ class OnboardingPortal(HorillaModel):
     count = models.IntegerField(default=0)
     profile = models.ImageField(upload_to="employee/profile", null=True, blank=True)
     objects = HorillaCompanyManager("candidate_id__recruitment_id__company_id")
+
+    class Meta:
+        db_table = 'ERP_HR_Onboarding_OnboardingPortal'  
 
     def __str__(self):
         return f"{self.candidate_id} | {self.token}"

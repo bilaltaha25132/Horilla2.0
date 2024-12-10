@@ -114,6 +114,7 @@ class FilingStatus(HorillaModel):
         return str(self.filing_status)
 
     class Meta:
+        db_table = 'ERP_HR_Payroll_FilingStatus'  
         ordering = ["-id"]
 
 
@@ -375,6 +376,7 @@ class Contract(HorillaModel):
         """
         Meta class to add additional options
         """
+        db_table = 'ERP_HR_Payroll_Contract'
 
         unique_together = ["employee_id", "contract_start_date", "contract_end_date"]
 
@@ -436,6 +438,9 @@ class WorkRecord(models.Model):
         super().clean()
         if not 0.0 <= self.day_percentage <= 1.0:
             raise ValidationError(_("Day percentage must be between 0.0 and 1.0"))
+        
+    class Meta:
+        db_table = 'ERP_HR_Payroll_WorkRecord'  
 
     def __str__(self):
         return (
@@ -452,6 +457,9 @@ if apps.is_installed("attendance"):
         """
         Class to override Attendance model save method
         """
+
+        class Meta:
+          db_table = 'ERP_HR_Payroll_OverrideAttendance'
 
         # Additional fields and methods specific to AnotherModel
         @receiver(post_save, sender=Attendance)
@@ -546,6 +554,9 @@ if apps.is_installed("leave"):
         Class to override Attendance model save method
         """
 
+        class Meta:
+           db_table = 'ERP_HR_Payroll_OverrideLeaveRequest'
+
         # Additional fields and methods specific to AnotherModel
         @receiver(pre_save, sender=LeaveRequest)
         def leaverequest_pre_save(sender, instance, **_kwargs):
@@ -618,6 +629,8 @@ class OverrideWorkInfo(EmployeeWorkInformation):
     """
     This class is to override the Model default methods
     """
+    class Meta:
+        db_table = 'ERP_HR_Payroll_OverrideWorkInfo'
 
     @receiver(pre_save, sender=EmployeeWorkInformation)
     def employeeworkinformation_pre_save(sender, instance, **_kwargs):
@@ -700,6 +713,9 @@ class MultipleCondition(models.Model):
         blank=True,
         help_text=_("The value must be like the data stored in the database"),
     )
+
+    class Meta:
+        db_table = 'ERP_HR_Payroll_MultipleCondition'
 
 
 class Allowance(HorillaModel):
@@ -936,6 +952,8 @@ class Allowance(HorillaModel):
         """
         Meta class for additional options
         """
+
+        db_table = 'ERP_HR_Payroll_Allowance'
 
         unique_together = [
             "title",
@@ -1324,6 +1342,9 @@ class Deduction(HorillaModel):
             self.condition = None
             self.value = None
 
+    class Meta:
+        db_table = 'ERP_HR_Payroll_Deduction'
+
     def __str__(self) -> str:
         return str(self.title)
 
@@ -1376,6 +1397,9 @@ class Payslip(HorillaModel):
             HorillaAuditInfo,
         ],
     )
+
+
+        
 
     def __str__(self) -> str:
         return f"Payslip for {self.employee_id} - Period: {self.start_date} to {self.end_date}"
@@ -1455,6 +1479,7 @@ class Payslip(HorillaModel):
         """
         Meta class for additional options
         """
+        db_table = 'ERP_HR_Payroll_Payslip'
 
         ordering = [
             "-end_date",
@@ -1505,6 +1530,9 @@ class LoanAccount(HorillaModel):
             editable=False,
         )
     objects = HorillaCompanyManager("employee_id__employee_work_info__company_id")
+
+    class Meta:
+        db_table = 'ERP_HR_Payroll_LoanAccount'
 
     def __str__(self):
         return f"{self.title} - {self.employee_id}"
@@ -1671,6 +1699,9 @@ class ReimbursementMultipleAttachment(models.Model):
     attachment = models.FileField(upload_to="payroll/reimbursements")
     objects = models.Manager()
 
+    class Meta:
+        db_table = 'ERP_HR_Payroll_ReimbursementMultipleAttachment'
+
 
 class Reimbursement(HorillaModel):
     """
@@ -1743,6 +1774,7 @@ class Reimbursement(HorillaModel):
     objects = HorillaCompanyManager("employee_id__employee_work_info__company_id")
 
     class Meta:
+        db_table = 'ERP_HR_Payroll_Reimbursement'
         ordering = ["-id"]
 
     def save(self, *args, **kwargs) -> None:
@@ -1888,6 +1920,9 @@ class ReimbursementFile(models.Model):
     file = models.FileField(upload_to="payroll/request_files")
     objects = models.Manager()
 
+    class Meta:
+        db_table = 'ERP_HR_Payroll_ReimbursementFile'
+
 
 class ReimbursementrequestComment(HorillaModel):
     """
@@ -1903,6 +1938,8 @@ class ReimbursementrequestComment(HorillaModel):
         verbose_name=_("Created At"),
         null=True,
     )
+    class Meta:
+        db_table = 'ERP_HR_Payroll_ReimbursementrequestComment'
 
     def __str__(self) -> str:
         return f"{self.comment}"
@@ -1920,6 +1957,9 @@ class PayrollGeneralSetting(models.Model):
     )
     company_id = models.ForeignKey(Company, on_delete=models.CASCADE, null=True)
 
+    class Meta:
+        db_table = 'ERP_HR_Payroll_PayrollGeneralSetting'
+
 
 class EncashmentGeneralSettings(models.Model):
     """
@@ -1929,6 +1969,9 @@ class EncashmentGeneralSettings(models.Model):
     bonus_amount = models.IntegerField(default=1)
     leave_amount = models.IntegerField(blank=True, null=True, verbose_name="Amount")
     objects = models.Manager()
+
+    class Meta:
+        db_table = 'ERP_HR_Payroll_EncashmentGeneralSettings'
 
 
 DAYS = [
@@ -2013,6 +2056,9 @@ class PayslipAutoGenerate(models.Model):
             auto_payslip_generate()
 
         super().save(*args, **kwargs)
+
+    class Meta:
+        db_table = 'ERP_HR_Payroll_PayslipAutoGenerate'
 
     def __str__(self) -> str:
         return f"{self.generate_day} | {self.company_id} "

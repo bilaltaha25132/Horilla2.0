@@ -39,6 +39,7 @@ class AuditTag(models.Model):
         """
         Meta class for aditional info
         """
+        db_table = 'ERP_HR_Horilla_Audit_AuditTag' 
 
         app_label = "horilla_audit"
 
@@ -57,7 +58,7 @@ class HorillaAuditInfo(models.Model):
         """
         Meta class for aditional info
         """
-
+        db_table = 'ERP_HR_Horilla_Audit_AuditInfo' 
         app_label = "horilla_audit"
         abstract = True
 
@@ -74,6 +75,9 @@ class HorillaAuditLog(HistoricalRecords):
     pass
 
     # history_comments = models.ManyToManyField("HistoryComment", blank=True)
+
+    class Meta:
+        db_table = 'ERP_HR_Horilla_Audit_HorillaAuditLog'  
 
 
 @receiver(pre_create_historical_record)
@@ -97,6 +101,9 @@ def pre_create_horilla_audit_log(sender, instance, *args, **kwargs):
         instance.skip_history = True
     except:
         pass
+    
+
+     
 
 
 @receiver(post_create_historical_record)
@@ -123,7 +130,13 @@ class HistoryTrackingFields(HorillaModel):
     tracking_fields = models.JSONField(null=True, blank=True, editable=False)
     work_info_track = models.BooleanField(default=True)
 
+    class Meta:
+        db_table = 'ERP_HR_Horilla_Audit_HistoryTrackingFields'  
+
 
 class AccountBlockUnblock(HorillaModel):
     is_enabled = models.BooleanField(default=False, null=True, blank=True)
     objects = models.Manager()
+
+    class Meta:
+        db_table = 'ERP_HR_Horilla_Audit_AccountBlockUnblock'

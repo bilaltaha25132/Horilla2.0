@@ -88,6 +88,9 @@ class SurveyTemplate(HorillaModel):
     )
     objects = HorillaCompanyManager("company_id")
 
+    class Meta:
+        db_table = 'ERP_HR_Recruitment_SurveyTemplate'
+
     def __str__(self) -> str:
         return self.title
 
@@ -97,6 +100,9 @@ class Skill(HorillaModel):
 
     def __str__(self):
         return self.title
+    
+    class Meta:
+        db_table = 'ERP_HR_Recruitment_Skill'
 
     def save(self, *args, **kwargs):
         title = self.title
@@ -174,6 +180,7 @@ class Recruitment(HorillaModel):
         """
         Meta class to add the additional info
         """
+        db_table = 'ERP_HR_Recruitment_Recruitment'
 
         unique_together = [
             (
@@ -301,6 +308,7 @@ class Stage(HorillaModel):
         """
         Meta class to add the additional info
         """
+        db_table = 'ERP_HR_Recruitment_Stage'
 
         permissions = (("archive_Stage", "Archive Stage"),)
         unique_together = ["recruitment_id", "stage"]
@@ -597,6 +605,7 @@ class Candidate(HorillaModel):
         """
         Meta class to add the additional info
         """
+        db_table = 'ERP_HR_Recruitment_Candidate'
 
         unique_together = (
             "email",
@@ -630,6 +639,9 @@ class RejectReason(HorillaModel):
     )
     objects = HorillaCompanyManager()
 
+    class Meta:
+        db_table = 'ERP_HR_Recruitment_RejectReason'
+
     def __str__(self) -> str:
         return self.title
 
@@ -659,12 +671,18 @@ class RejectedCandidate(HorillaModel):
         ],
     )
 
+    class Meta:
+        db_table = 'ERP_HR_Recruitment_RejectedCandidate'
+
     def __str__(self) -> str:
         return super().__str__()
 
 
 class StageFiles(HorillaModel):
     files = models.FileField(upload_to="recruitment/stageFiles", blank=True, null=True)
+
+    class Meta:
+        db_table = 'ERP_HR_Recruitment_StageFiles'
 
     def __str__(self):
         return self.files.name.split("/")[-1]
@@ -686,6 +704,9 @@ class StageNote(HorillaModel):
     objects = HorillaCompanyManager(
         related_company_field="candidate_id__recruitment_id__company_id"
     )
+
+    class Meta:
+        db_table = 'ERP_HR_Recruitment_StageNote'
 
     def __str__(self) -> str:
         return f"{self.description}"
@@ -757,6 +778,7 @@ class RecruitmentSurvey(HorillaModel):
                 super().save(*args, **kwargs)
 
     class Meta:
+        db_table = 'ERP_HR_Recruitment_RecruitmentSurvey'
         ordering = [
             "sequence",
         ]
@@ -771,6 +793,9 @@ class QuestionOrdering(HorillaModel):
     recruitment_id = models.ForeignKey(Recruitment, on_delete=models.CASCADE)
     sequence = models.IntegerField(default=0)
     objects = HorillaCompanyManager(related_company_field="recruitment_ids__company_id")
+
+    class Meta:
+        db_table = 'ERP_HR_Recruitment_QuestionOrdering'
 
 
 class RecruitmentSurveyAnswer(HorillaModel):
@@ -807,6 +832,9 @@ class RecruitmentSurveyAnswer(HorillaModel):
             return json.loads(self.answer_json)
         except json.JSONDecodeError:
             return {}  # Return an empty dictionary if JSON is invalid or empty
+        
+    class Meta:
+        db_table = 'ERP_HR_Recruitment_RecruitmentSurveyAnswer'
 
     def __str__(self) -> str:
         return f"{self.candidate_id.name}-{self.recruitment_id}"
@@ -822,6 +850,9 @@ class RecruitmentMailTemplate(HorillaModel):
         on_delete=models.CASCADE,
         verbose_name=_("Company"),
     )
+
+    class Meta:
+        db_table = 'ERP_HR_Recruitment_RecruitmentMailTemplate'
 
     def __str__(self) -> str:
         return f"{self.title}"
@@ -845,6 +876,9 @@ class SkillZone(HorillaModel):
 
     def get_active(self):
         return SkillZoneCandidate.objects.filter(is_active=True, skill_zone_id=self)
+    
+    class Meta:
+        db_table = 'ERP_HR_Recruitment_SkillZone'
 
     def __str__(self) -> str:
         return self.title
@@ -888,6 +922,8 @@ class SkillZoneCandidate(HorillaModel):
         Meta class to add the additional info
         """
 
+        db_table = 'ERP_HR_Recruitment_SkillZoneCandidate'
+
         unique_together = (
             "skill_zone_id",
             "candidate_id",
@@ -909,6 +945,7 @@ class CandidateRating(HorillaModel):
     )
 
     class Meta:
+        db_table = 'ERP_HR_Recruitment_CandidateRating'
         unique_together = ["employee_id", "candidate_id"]
 
     def __str__(self) -> str:
@@ -923,6 +960,9 @@ class RecruitmentGeneralSetting(HorillaModel):
     candidate_self_tracking = models.BooleanField(default=False)
     show_overall_rating = models.BooleanField(default=False)
     company_id = models.ForeignKey(Company, on_delete=models.CASCADE, null=True)
+
+    class Meta:
+        db_table = 'ERP_HR_Recruitment_RecruitmentGeneralSetting'
 
 
 class InterviewSchedule(HorillaModel):
@@ -947,6 +987,9 @@ class InterviewSchedule(HorillaModel):
     )
     objects = HorillaCompanyManager("candidate_id__recruitment_id__company_id")
 
+    class Meta:
+        db_table = 'ERP_HR_Recruitment_InterviewSchedule'
+
     def __str__(self) -> str:
         return f"{self.candidate_id} -Interview."
 
@@ -962,6 +1005,9 @@ class Resume(models.Model):
         Recruitment, on_delete=models.CASCADE, related_name="resume"
     )
     is_candidate = models.BooleanField(default=False)
+
+    class Meta:
+        db_table = 'ERP_HR_Recruitment_Resume'
 
     def __str__(self):
         return f"{self.recruitment_id} - Resume {self.pk}"
@@ -995,6 +1041,9 @@ class CandidateDocumentRequest(HorillaModel):
         related_company_field="employee_id__employee_work_info__company_id"
     )
 
+    class Meta:
+        db_table = 'ERP_HR_Recruitment_CandidateDocumentRequest'
+
     def __str__(self):
         return self.title
 
@@ -1010,6 +1059,9 @@ class CandidateDocument(HorillaModel):
     document = models.FileField(upload_to="candidate/documents", null=True)
     status = models.CharField(choices=STATUS, max_length=10, default="requested")
     reject_reason = models.TextField(blank=True, null=True, max_length=255)
+
+    class Meta:
+        db_table = 'ERP_HR_Recruitment_CandidateDocument'
 
     def __str__(self):
         return f"{self.candidate_id} - {self.title}"
