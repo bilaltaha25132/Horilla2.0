@@ -19,12 +19,14 @@ class AssetCategory(HorillaModel):
     """
     Represents a category for different types of assets.
     """
-
     asset_category_name = models.CharField(max_length=255, unique=True)
     asset_category_description = models.TextField(max_length=255)
     objects = models.Manager()
     company_id = models.ManyToManyField(Company, blank=True, verbose_name=_("Company"))
     objects = HorillaCompanyManager("company_id")
+
+    class Meta:
+        db_table = 'ERP_HR_Asset_AssetCategory'  
 
     def __str__(self):
         return f"{self.asset_category_name}"
@@ -34,17 +36,13 @@ class AssetLot(HorillaModel):
     """
     Represents a lot associated with a collection of assets.
     """
-
     lot_number = models.CharField(max_length=30, null=False, blank=False, unique=True)
     lot_description = models.TextField(null=True, blank=True, max_length=255)
     company_id = models.ManyToManyField(Company, blank=True, verbose_name=_("Company"))
     objects = HorillaCompanyManager()
 
     class Meta:
-        """
-        Meta class to add additional options
-        """
-
+        db_table = 'ERP_HR_Asset_AssetLot'
         verbose_name = _("Asset Batch")
         verbose_name_plural = _("Asset Batches")
 
@@ -54,9 +52,8 @@ class AssetLot(HorillaModel):
 
 class Asset(HorillaModel):
     """
-    Represents a asset with various attributes.
+    Represents an asset with various attributes.
     """
-
     ASSET_STATUS = [
         ("In use", _("In Use")),
         ("Available", _("Available")),
@@ -78,6 +75,9 @@ class Asset(HorillaModel):
     expiry_date = models.DateField(null=True, blank=True)
     notify_before = models.IntegerField(default=1, null=True)
     objects = HorillaCompanyManager("asset_category_id__company_id")
+
+    class Meta:
+        db_table = 'ERP_HR_Asset_Asset'  
 
     def __str__(self):
         return f"{self.asset_name}-{self.asset_tracking_id}"
@@ -102,23 +102,16 @@ class Asset(HorillaModel):
 class AssetReport(HorillaModel):
     """
     Model representing a report for an asset.
-
-    Attributes:
-    - title: A CharField for the title of the report (optional).
-    - asset_id: A ForeignKey to the Asset model, linking the report to a specific asset.
     """
-
     title = models.CharField(max_length=255, blank=True, null=True)
     asset_id = models.ForeignKey(
         Asset, related_name="asset_report", on_delete=models.CASCADE
     )
 
+    class Meta:
+        db_table = 'ERP_HR_Asset_AssetReport'  
+
     def __str__(self):
-        """
-        Returns a string representation of the AssetReport instance.
-        If a title is present, it returns "asset_id - title".
-        Otherwise, it returns "report for asset_id".
-        """
         return (
             f"{self.asset_id} - {self.title}"
             if self.title
@@ -129,20 +122,16 @@ class AssetReport(HorillaModel):
 class AssetDocuments(HorillaModel):
     """
     Model representing documents associated with an asset report.
-
-    Attributes:
-    - asset_report: A ForeignKey to the AssetReport model, linking the document to
-    a specific asset report.
-    - file: A FileField for uploading the document file (optional).
     """
-
     asset_report = models.ForeignKey(
         "AssetReport", related_name="documents", on_delete=models.CASCADE
     )
     file = models.FileField(
         upload_to="asset/asset_report/documents/", blank=True, null=True
     )
-    objects = models.Manager()
+
+    class Meta:
+        db_table = 'ERP_HR_Asset_AssetDocuments'  
 
     def __str__(self):
         return f"document for {self.asset_report}"
@@ -151,19 +140,17 @@ class AssetDocuments(HorillaModel):
 class ReturnImages(HorillaModel):
     """
     Model representing images associated with a returned asset.
-
-    Attributes:
-    - image: A FileField for uploading the image file (optional).
     """
-
     image = models.FileField(upload_to="asset/return_images/", blank=True, null=True)
+
+    class Meta:
+        db_table = 'ERP_HR_Asset_ReturnImages'  
 
 
 class AssetAssignment(HorillaModel):
     """
     Represents the allocation and return of assets to and from employees.
     """
-
     STATUS = [
         ("Minor damage", _("Minor damage")),
         ("Major damage", _("Major damage")),
@@ -197,8 +184,7 @@ class AssetAssignment(HorillaModel):
     )
 
     class Meta:
-        """Meta class for AssetAssignment model"""
-
+        db_table = 'ERP_HR_Asset_AssetAssignment'  
         ordering = ["-id"]
 
     def __str__(self):
@@ -209,7 +195,6 @@ class AssetRequest(HorillaModel):
     """
     Represents a request for assets made by employees.
     """
-
     STATUS = [
         ("Requested", _("Requested")),
         ("Approved", _("Approved")),
@@ -236,5 +221,5 @@ class AssetRequest(HorillaModel):
 
     class Meta:
         """Meta class for AssetRequest model"""
-
+        db_table = 'ERP_HR_Asset_AssetRequest'  
         ordering = ["-id"]

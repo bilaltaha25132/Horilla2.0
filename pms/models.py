@@ -33,6 +33,9 @@ class Period(HorillaModel):
     company_id = models.ManyToManyField(Company, blank=True, verbose_name=_("Company"))
     objects = HorillaCompanyManager("company_id")
 
+    class Meta:
+        db_table = 'ERP_HR_Pms_Period'
+
     def __str__(self):
         return self.period_name
 
@@ -71,6 +74,7 @@ class KeyResult(HorillaModel):
         """
         Meta class for additional options
         """
+        db_table = 'ERP_HR_Pms_KeyResult'
 
         ordering = [
             "-id",
@@ -134,6 +138,7 @@ class Objective(HorillaModel):
         """
         Meta class for additional options
         """
+        db_table = 'ERP_HR_Pms_Objective'
 
         ordering = [
             "-id",
@@ -208,6 +213,7 @@ class EmployeeObjective(HorillaModel):
         """
         Meta class for additional options
         """
+        db_table = 'ERP_HR_Pms_EmployeeObjective'
 
         unique_together = ("employee_id", "objective_id")
 
@@ -268,6 +274,9 @@ class Comment(models.Model):
     objects = HorillaCompanyManager(
         related_company_field="employee_id__employee_work_info__company_id"
     )
+
+    class Meta:
+        db_table = 'ERP_HR_Pms_Comment'
 
     def __str__(self):
         return f"{self.employee_id.employee_first_name} - {self.comment} "
@@ -434,6 +443,9 @@ class QuestionTemplate(HorillaModel):
 
     objects = HorillaCompanyManager()
 
+    class Meta:
+        db_table = 'ERP_HR_Pms_QuestionTemplate'
+
     def __str__(self):
         return self.question_template
 
@@ -461,6 +473,9 @@ class Question(HorillaModel):
     )
     objects = HorillaCompanyManager("template_id__company_id")
 
+    class Meta:
+        db_table = 'ERP_HR_Pms_Question'
+
     def __str__(self):
         return self.question
 
@@ -480,6 +495,9 @@ class QuestionOptions(HorillaModel):
     option_c = models.CharField(max_length=250, null=True, blank=True)
     option_d = models.CharField(max_length=250, null=True, blank=True)
     objects = HorillaCompanyManager("question_id__template_id__company_id")
+
+    class Meta:
+        db_table = 'ERP_HR_Pms_QuestionOptions'
 
 
 class Feedback(HorillaModel):
@@ -546,6 +564,7 @@ class Feedback(HorillaModel):
     objects = HorillaCompanyManager("employee_id__employee_work_info__company_id")
 
     class Meta:
+        db_table = 'ERP_HR_Pms_Feedback'
         ordering = ["-id"]
 
     def save(self, *args, **kwargs):
@@ -654,6 +673,9 @@ class AnonymousFeedback(models.Model):
     feedback_description = models.TextField(null=True, blank=True, max_length=255)
     objects = models.Manager()
 
+    class Meta:
+        db_table = 'ERP_HR_Pms_AnonymousFeedback'
+
     def __str__(self) -> str:
         return f"Feedback based on a {self.based_on}"
 
@@ -707,6 +729,9 @@ class Answer(models.Model):
     )
     objects = HorillaCompanyManager("employee_id__employee_work_info__company_id")
 
+    class Meta:
+        db_table = 'ERP_HR_Pms_Answer'
+
     def __str__(self):
         return f"{self.employee_id.employee_first_name} - {self.answer}"
 
@@ -731,6 +756,9 @@ class KeyResultFeedback(models.Model):
         on_delete=models.DO_NOTHING,
     )
     objects = HorillaCompanyManager("employee_id__employee_work_info__company_id")
+
+    class Meta:
+        db_table = 'ERP_HR_Pms_KeyResultFeedback'
 
 
 class Meetings(HorillaModel):
@@ -758,6 +786,7 @@ class Meetings(HorillaModel):
     show_response = models.BooleanField(default=False, editable=False)
 
     class Meta:
+        db_table = 'ERP_HR_Pms_Meetings'
         verbose_name = _("Meetings")
 
     def __str__(self):
@@ -788,6 +817,9 @@ class MeetingsAnswer(models.Model):
     )
     objects = HorillaCompanyManager("employee_id__employee_work_info__company_id")
 
+    class Meta:
+        db_table = 'ERP_HR_Pms_MeetingAnswer'
+
     def __str__(self):
         return f"{self.employee_id.employee_first_name} - {self.answer}"
 
@@ -811,6 +843,9 @@ class EmployeeBonusPoint(HorillaModel):
         on_delete=models.CASCADE,
         related_name="employeebonuspoint_set",
     )
+
+    class Meta:
+        db_table = 'ERP_HR_Pms_EmployeeBonusPoint'
 
     def __str__(self):
         return f"{self.employee_id.employee_first_name} - {self.bonus_point}"
@@ -883,6 +918,9 @@ class BonusPointSetting(models.Model):
     field_2 = models.CharField(max_length=25, choices=FIELD_2, null=True, blank=True)
     points = models.IntegerField(default=0, validators=[MinValueValidator(0)])
     is_active = models.BooleanField(default=True)
+
+    class Meta:
+        db_table = 'ERP_HR_Pms_BonusPointSetting'
 
     def get_model_display(self):
         """

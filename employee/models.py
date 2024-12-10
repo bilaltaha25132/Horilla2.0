@@ -420,6 +420,8 @@ class Employee(models.Model):
         Recruitment model
         """
 
+        db_table = 'ERP_HR_Employee_Employee' 
+
         unique_together = ("employee_first_name", "employee_last_name", "email")
         permissions = (
             ("change_ownprofile", "Update own profile"),
@@ -515,6 +517,9 @@ class EmployeeTag(HorillaModel):
 
     title = models.CharField(max_length=50, null=True, verbose_name=_("Title"))
     color = models.CharField(max_length=30, null=True)
+    
+    class Meta:
+        db_table = 'ERP_HR_Employee_EmployeeTag' 
 
     def __str__(self) -> str:
         return f"{self.title}"
@@ -626,6 +631,9 @@ class EmployeeWorkInformation(models.Model):
     )
     objects = HorillaCompanyManager()
 
+    class Meta:
+        db_table = 'ERP_HR_Employee_EmployeeWorkInformation'
+
     def __str__(self) -> str:
         return f"{self.employee_id} - {self.job_position_id}"
 
@@ -698,6 +706,10 @@ class EmployeeBankDetails(HorillaModel):
         related_company_field="employee_id__employee_work_info__company_id"
     )
 
+
+    class Meta:
+        db_table = 'ERP_HR_Employee_EmployeeBankDetails'
+
     def __str__(self) -> str:
         return f"{self.employee_id}-{self.bank_name}"
 
@@ -719,6 +731,9 @@ class EmployeeBankDetails(HorillaModel):
 class NoteFiles(HorillaModel):
     files = models.FileField(upload_to="employee/NoteFiles", blank=True, null=True)
     objects = models.Manager()
+
+    class Meta:
+        db_table = 'ERP_HR_Employee_NoteFiles'
 
     def __str__(self):
         return self.files.name.split("/")[-1]
@@ -743,6 +758,11 @@ class EmployeeNote(HorillaModel):
         related_company_field="employee_id__employee_work_info__company_id"
     )
 
+
+    class Meta:
+        db_table = 'ERP_HR_Employee_EmployeeNote' 
+
+
     def __str__(self) -> str:
         return f"{self.description}"
 
@@ -753,6 +773,9 @@ class PolicyMultipleFile(HorillaModel):
     """
 
     attachment = models.FileField(upload_to="employee/policies")
+
+    class Meta:
+        db_table = 'ERP_HR_Employee_PolicyMultipleFile'
 
 
 class Policy(HorillaModel):
@@ -766,6 +789,9 @@ class Policy(HorillaModel):
     specific_employees = models.ManyToManyField(Employee, blank=True, editable=False)
     attachments = models.ManyToManyField(PolicyMultipleFile, blank=True)
     company_id = models.ManyToManyField(Company, blank=True, verbose_name=_("Company"))
+
+    class Meta:
+        db_table = 'ERP_HR_Employee_Policy'  
 
     objects = HorillaCompanyManager("company_id")
 
@@ -811,6 +837,9 @@ class BonusPoint(HorillaModel):
     objects = HorillaCompanyManager(
         related_company_field="employee_id__employee_work_info__company_id"
     )
+
+    class Meta:
+        db_table = 'ERP_HR_Employee_BonusPoint' 
 
     def __str__(self):
         return f"{self.employee_id} - {self.points} Points"
@@ -859,6 +888,7 @@ class Actiontype(HorillaModel):
         return f"{self.title}"
 
     class Meta:
+        db_table = 'ERP_HR_Employee_ActionType' 
         verbose_name = _("Action Type")
         verbose_name_plural = _("Action Types")
 
@@ -890,6 +920,7 @@ class DisciplinaryAction(HorillaModel):
         return f"{self.action}"
 
     class Meta:
+        db_table = 'ERP_HR_EmployeeDisciplinaryAction' 
         ordering = ["-id"]
 
 
@@ -901,6 +932,9 @@ class EmployeeGeneralSetting(HorillaModel):
     badge_id_prefix = models.CharField(max_length=5, default="PEP")
     objects = models.Manager()
     company_id = models.ForeignKey(Company, null=True, on_delete=models.CASCADE)
+
+    class Meta:
+        db_table = 'ERP_HR_Employee_EmployeeGeneralSetting' 
 
 
 from accessibility.accessibility import ACCESSBILITY_FEATURE

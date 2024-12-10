@@ -36,6 +36,9 @@ class PayrollSettings(HorillaModel):
     )
     objects = models.Manager()
 
+    class Meta:
+        db_table = 'ERP_HR_Payroll_PayrollSettings'
+
     def __str__(self):
         return f"Payroll Settings {self.currency_symbol}"
 
@@ -64,6 +67,9 @@ class TaxBracket(HorillaModel):
         null=False, blank=False, default=0.0, verbose_name=_("Tax Rate")
     )
     objects = models.Manager()
+
+    class Meta:
+        db_table = 'ERP_HR_Payroll_TaxBracket'
 
     def __str__(self):
         if self.max_income != math.inf:

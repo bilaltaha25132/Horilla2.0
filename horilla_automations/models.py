@@ -57,6 +57,9 @@ class MailAutomation(HorillaModel):
         if not self.pk:
             self.method_title = self.title.replace(" ", "_").lower()
         return super().save(*args, **kwargs)
+    
+    class Meta:
+        db_table = 'ERP_HR_Horilla_Automation_MailAutomation'  
 
     def __str__(self) -> str:
         return self.title

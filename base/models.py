@@ -93,6 +93,8 @@ class Company(HorillaModel):
         Meta class to add additional options
         """
 
+        db_table = 'ERP_HR_Base_Company'
+
         verbose_name = _("Company")
         verbose_name_plural = _("Companies")
         unique_together = ["company", "address"]
@@ -113,6 +115,7 @@ class Department(HorillaModel):
     objects = HorillaCompanyManager()
 
     class Meta:
+        db_table = 'ERP_HR_Base_Department'
         verbose_name = _("Department")
         verbose_name_plural = _("Departments")
 
@@ -162,6 +165,8 @@ class JobPosition(HorillaModel):
         Meta class to add additional options
         """
 
+        db_table = 'ERP_HR_Base_JobPosition'
+
         verbose_name = _("Job Position")
         verbose_name_plural = _("Job Positions")
 
@@ -184,6 +189,8 @@ class JobRole(HorillaModel):
         """
         Meta class to add additional options
         """
+
+        db_table = 'ERP_HR_Base_JobRole'
 
         verbose_name = _("Job Role")
         verbose_name_plural = _("Job Roles")
@@ -208,6 +215,7 @@ class WorkType(HorillaModel):
         Meta class to add additional options
         """
 
+        db_table = 'ERP_HR_Base_WorkType'
         verbose_name = _("Work Type")
         verbose_name_plural = _("Work Types")
 
@@ -268,6 +276,9 @@ class RotatingWorkType(HorillaModel):
         """
         Meta class to add additional options
         """
+
+        db_table = 'ERP_HR_Base_RotatingWorkType'
+
 
         verbose_name = _("Rotating Work Type")
         verbose_name_plural = _("Rotating Work Types")
@@ -412,6 +423,8 @@ class RotatingWorkTypeAssign(HorillaModel):
         Meta class to add additional options
         """
 
+        db_table = 'ERP_HR_Base_RotatingWorkTypeAssign'
+
         verbose_name = _("Rotating Work Type Assign")
         verbose_name_plural = _("Rotating Work Type Assigns")
         ordering = ["-next_change_date", "-employee_id__employee_first_name"]
@@ -442,6 +455,9 @@ class EmployeeType(HorillaModel):
         """
         Meta class to add additional options
         """
+
+        db_table = 'ERP_HR_Base_EmployeeType'
+
 
         verbose_name = _("Employee Type")
         verbose_name_plural = _("Employee Types")
@@ -488,6 +504,8 @@ class EmployeeShiftDay(models.Model):
         Meta class to add additional options
         """
 
+        db_table = 'ERP_HR_Base_EmployeeShiftDay'
+
         verbose_name = _("Employee Shift Day")
         verbose_name_plural = _("Employee Shift Days")
 
@@ -533,6 +551,8 @@ class EmployeeShift(HorillaModel):
         """
         Meta class to add additional options
         """
+
+        db_table = 'ERP_HR_Base_EmployeeShift'
 
         verbose_name = _("Employee Shift")
         verbose_name_plural = _("Employee Shifts")
@@ -612,6 +632,8 @@ class EmployeeShiftSchedule(HorillaModel):
         Meta class to add additional options
         """
 
+        db_table = 'ERP_HR_Base_ShiftSchedule'
+
         verbose_name = _("Employee Shift Schedule")
         verbose_name_plural = _("Employee Shift Schedules")
         unique_together = [["shift_id", "day"]]
@@ -669,6 +691,8 @@ class RotatingShift(HorillaModel):
         """
         Meta class to add additional options
         """
+
+        db_table = 'ERP_HR_Base_RotatingShift'
 
         verbose_name = _("Rotating Shift")
         verbose_name_plural = _("Rotating Shifts")
@@ -787,6 +811,8 @@ class RotatingShiftAssign(HorillaModel):
         Meta class to add additional options
         """
 
+        db_table = 'ERP_HR_Base_RotatingShiftAssign'
+
         verbose_name = _("Rotating Shift Assign")
         verbose_name_plural = _("Rotating Shift Assigns")
         ordering = ["-next_change_date", "-employee_id__employee_first_name"]
@@ -806,6 +832,9 @@ class RotatingShiftAssign(HorillaModel):
 class BaserequestFile(models.Model):
     file = models.FileField(upload_to="base/request_files")
     objects = models.Manager()
+
+    class Meta:
+            db_table = 'ERP_HR_Base_BaseRequestFile' 
 
 
 class WorkTypeRequest(HorillaModel):
@@ -861,6 +890,8 @@ class WorkTypeRequest(HorillaModel):
         """
         Meta class to add additional options
         """
+
+        db_table = 'ERP_HR_Base_WorkTypeRequest'
 
         verbose_name = _("Work Type Request")
         verbose_name_plural = _("Work Type Requests")
@@ -962,6 +993,9 @@ class WorkTypeRequestComment(HorillaModel):
     files = models.ManyToManyField(BaserequestFile, blank=True)
     objects = models.Manager()
 
+    class Meta:
+            db_table = 'ERP_HR_Base_WorkTypeRequestComment' 
+
     def __str__(self) -> str:
         return f"{self.comment}"
 
@@ -1028,7 +1062,13 @@ class ShiftRequest(HorillaModel):
         """
         Meta class to add additional options
         """
+<<<<<<< HEAD
         db_table='ERP_HR_Base_ShiftRequest'
+=======
+
+        db_table = 'ERP_HR_Base_ShiftRequest'
+
+>>>>>>> main
         verbose_name = _("Shift Request")
         verbose_name_plural = _("Shift Requests")
         permissions = (
@@ -1127,6 +1167,9 @@ class ShiftRequestComment(HorillaModel):
     comment = models.TextField(null=True, verbose_name=_("Comment"))
     objects = models.Manager()
 
+    class Meta:
+            db_table = 'ERP_HR_Base_ShiftRequestComment'
+
     def __str__(self) -> str:
         return f"{self.comment}"
 
@@ -1138,6 +1181,9 @@ class Tags(HorillaModel):
         Company, null=True, editable=False, on_delete=models.PROTECT
     )
     objects = HorillaCompanyManager(related_company_field="company_id")
+
+    class Meta:
+            db_table = 'ERP_HR_Base_Tags'  # Add prefix here
 
     def __str__(self):
         return self.title
@@ -1154,6 +1200,9 @@ class HorillaMailTemplate(HorillaModel):
         verbose_name=_("Company"),
     )
     objects = HorillaCompanyManager(related_company_field="company_id")
+
+    class Meta:
+            db_table = 'ERP_HR_Base_HorillaMailTemplate' 
 
     def __str__(self) -> str:
         return f"{self.title}"
@@ -1238,6 +1287,7 @@ class DynamicEmailConfiguration(HorillaModel):
         return
 
     class Meta:
+        db_table = 'ERP_HR_Base_DynamicEmailConfiguration'
         verbose_name = _("Email Configuration")
 
 
@@ -1292,6 +1342,9 @@ class MultipleApprovalCondition(HorillaModel):
         on_delete=models.CASCADE,
         verbose_name=_("Company"),
     )
+
+    class Meta:
+            db_table = 'ERP_HR_Base_MultipleApprovalCondition' 
 
     def __str__(self) -> str:
         return f"{self.condition_field} {self.condition_operator}"
@@ -1407,6 +1460,9 @@ class MultipleApprovalManagers(models.Model):
     employee_id = models.IntegerField(null=False, blank=False)
     objects = models.Manager()
 
+    class Meta:
+            db_table = 'ERP_HR_Base_MultipleApprovalManagers'
+
 
 class DynamicPagination(models.Model):
     """
@@ -1433,6 +1489,9 @@ class DynamicPagination(models.Model):
         self.user_id = user
         super().save(*args, **kwargs)
 
+    class Meta:
+            db_table = 'ERP_HR_Base_DynamicPagination' 
+
     def __str__(self):
         return f"{self.user_id}|{self.pagination}"
 
@@ -1443,6 +1502,9 @@ class Attachment(models.Model):
     """
 
     file = models.FileField(upload_to="attachments/")
+
+    class Meta:
+            db_table = 'ERP_HR_Base_Attachment'
 
     def __str__(self):
         return self.file.name
@@ -1455,6 +1517,9 @@ class AnnouncementExpire(models.Model):
 
     days = models.IntegerField(null=True, blank=True, default=30)
     objects = models.Manager()
+
+    class Meta:
+            db_table = 'ERP_HR_Base_AnnoucementExpire'
 
 
 class Announcement(HorillaModel):
@@ -1492,6 +1557,9 @@ class Announcement(HorillaModel):
         for i in viewed_by:
             viewed_emp.append(i.user)
         return viewed_emp
+    
+    class Meta:
+            db_table = 'ERP_HR_Base_Announcement' 
 
     def __str__(self):
         return self.title
@@ -1509,6 +1577,9 @@ class AnnouncementComment(HorillaModel):
     comment = models.TextField(null=True, verbose_name=_("Comment"), max_length=255)
     objects = models.Manager()
 
+    class Meta:
+            db_table = 'ERP_HR_Base_AnnouncementComment' 
+
 
 class AnnouncementView(models.Model):
     """
@@ -1520,6 +1591,9 @@ class AnnouncementView(models.Model):
     viewed = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True, null=True)
     objects = models.Manager()
+
+    class Meta:
+            db_table = 'ERP_HR_Base_AnnouncementView' 
 
 
 class EmailLog(models.Model):
@@ -1538,6 +1612,9 @@ class EmailLog(models.Model):
     company_id = models.ForeignKey(
         Company, on_delete=models.CASCADE, null=True, editable=False
     )
+
+    class Meta:
+            db_table = 'ERP_HR_Base_EmailLog'
 
 
 class DriverViewed(models.Model):
@@ -1558,6 +1635,9 @@ class DriverViewed(models.Model):
         This method is used to access all the viewd driver
         """
         return self.user.driverviewed_set.values_list("viewed", flat=True)
+    
+    class Meta:
+            db_table = 'ERP_HR_Base_DriverViewed'  # Add prefix here
 
 
 class DashboardEmployeeCharts(HorillaModel):
@@ -1567,6 +1647,9 @@ class DashboardEmployeeCharts(HorillaModel):
     charts = models.JSONField(
         verbose_name=_("Excluded Charts"), default=list, blank=True, null=True
     )
+
+    class Meta:
+            db_table = 'ERP_HR_Base_DashboardEmployeeCharts' 
 
     def __str__(self):
         return f"{self.employee} - charts"
@@ -1582,6 +1665,9 @@ class BiometricAttendance(models.Model):
         related_name="biometric_enabled_company",
     )
     objects = models.Manager()
+
+    class Meta:
+            db_table = 'ERP_HR_Base_BiometricAttendance'
 
     def __str__(self):
         return f"{self.is_installed}"
@@ -1604,6 +1690,7 @@ class AttendanceAllowedIP(models.Model):
         null=True, blank=True, default=default_additional_data
     )
 
+
     def clean(self):
         """
         Validate that all entries in `allowed_ips` are either valid IP addresses or network prefixes.
@@ -1614,6 +1701,9 @@ class AttendanceAllowedIP(models.Model):
                 ipaddress.ip_network(ip)
             except ValueError:
                 raise ValidationError(f"Invalid IP address or network prefix: {ip}")
+            
+    class Meta:
+            db_table = 'ERP_HR_Base_AttendanceAllowedIP' 
 
     def __str__(self):
         return f"AttendanceAllowedIP - {self.is_enabled}"
@@ -1629,6 +1719,7 @@ class TrackLateComeEarlyOut(HorillaModel):
     )
 
     class Meta:
+        db_table = 'ERP_HR_Base_TrackLateComeEarlyOut'
         verbose_name = _("Track Late Come Early Out")
         verbose_name_plural = _("Track Late Come Early Outs")
 
@@ -1651,6 +1742,9 @@ class Holidays(HorillaModel):
     )
     objects = HorillaCompanyManager(related_company_field="company_id")
 
+    class Meta:
+            db_table = 'ERP_HR_Base_Holidays'  # Add prefix here
+
     def __str__(self):
         return self.name
 
@@ -1666,6 +1760,7 @@ class CompanyLeaves(HorillaModel):
     objects = HorillaCompanyManager(related_company_field="company_id")
 
     class Meta:
+        db_table = 'ERP_HR_Base_CompanyLeaves'
         unique_together = ("based_on_week", "based_on_week_day")
 
     def __str__(self):
@@ -1737,6 +1832,7 @@ class PenaltyAccounts(HorillaModel):
         return
 
     class Meta:
+        db_table = 'ERP_HR_Base_PenaltyAccounts'
         ordering = ["-created_at"]
 
 
