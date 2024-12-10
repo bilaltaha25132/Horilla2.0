@@ -115,7 +115,6 @@ WSGI_APPLICATION = "horilla.wsgi.application"
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 DATABASES = {
-<<<<<<< HEAD
     "default": env.db() 
     if env("DATABASE_URL", default=None) 
     else {
@@ -138,19 +137,6 @@ DATABASES = {
     
 
 # }
-=======
-    "default": env.db() if env("DATABASE_URL", default=None) else {
-        "ENGINE": "django.db.backends.postgresql",  # Using PostgreSQL
-        "NAME": env("DB_NAME", default="bilal_db"),  # Your database name (changed to bilal_db)
-        "USER": env("DB_USER", default="bilal_user"),  # Your database username (bilal_user)
-        "PASSWORD": env("DB_PASSWORD", default="16519"),  # Your database password
-        "HOST": env("DB_HOST", default="localhost"),  # Database host, default is localhost
-        "PORT": env("DB_PORT", default="5432"),  # Default PostgreSQL port (changed to 5432)
-    }
-}
-
-
->>>>>>> main
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators

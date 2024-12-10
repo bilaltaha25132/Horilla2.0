@@ -43,6 +43,8 @@ class ActiveTab(HorillaModel):
 
     path = models.CharField(max_length=256)
     tab_target = models.CharField(max_length=256)
+    class Meta:
+        db_table='ERP_HR_Horilla_Views_ActiveTab'
 
 
 class ActiveGroup(HorillaModel):

@@ -269,6 +269,8 @@ class Contract(HorillaModel):
         bases=[
             HorillaAuditInfo,
         ],
+        table_name='ERP_HR_Payroll_Historical_Contract'
+
     )
 
     objects = HorillaCompanyManager("employee_id__employee_work_info__company_id")
@@ -1396,6 +1398,8 @@ class Payslip(HorillaModel):
         bases=[
             HorillaAuditInfo,
         ],
+            table_name='ERP_HR_Payroll_Historical_Payslip'
+
     )
 
 
