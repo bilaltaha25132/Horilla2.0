@@ -1062,13 +1062,7 @@ class ShiftRequest(HorillaModel):
         """
         Meta class to add additional options
         """
-<<<<<<< HEAD
         db_table='ERP_HR_Base_ShiftRequest'
-=======
-
-        db_table = 'ERP_HR_Base_ShiftRequest'
-
->>>>>>> main
         verbose_name = _("Shift Request")
         verbose_name_plural = _("Shift Requests")
         permissions = (
