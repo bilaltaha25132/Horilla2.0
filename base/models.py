@@ -402,6 +402,8 @@ class RotatingWorkTypeAssign(HorillaModel):
         bases=[
             HorillaAuditInfo,
         ],
+                table_name='ERP_HR_Base_Historical_RotatingWorkTypeAssign'
+
     )
     objects = HorillaCompanyManager("employee_id__employee_work_info__company_id")
 
@@ -776,6 +778,7 @@ class RotatingShiftAssign(HorillaModel):
         bases=[
             HorillaAuditInfo,
         ],
+        table_name="ERP_HR_Base_Historical_RotatingShiftAssign"
     )
     objects = HorillaCompanyManager("employee_id__employee_work_info__company_id")
 
@@ -849,6 +852,8 @@ class WorkTypeRequest(HorillaModel):
         bases=[
             HorillaAuditInfo,
         ],
+                table_name="ERP_HR_Base_Historical_WorkTypeRequest"
+
     )
     objects = HorillaCompanyManager("employee_id__employee_work_info__company_id")
 
@@ -1015,6 +1020,7 @@ class ShiftRequest(HorillaModel):
         bases=[
             HorillaAuditInfo,
         ],
+        table_name='ERP_HR_Base_Historical_ShiftRequest'
     )
     objects = HorillaCompanyManager("employee_id__employee_work_info__company_id")
 
@@ -1022,7 +1028,7 @@ class ShiftRequest(HorillaModel):
         """
         Meta class to add additional options
         """
-
+        db_table='ERP_HR_Base_ShiftRequest'
         verbose_name = _("Shift Request")
         verbose_name_plural = _("Shift Requests")
         permissions = (
@@ -1105,6 +1111,7 @@ class ShiftRequest(HorillaModel):
     def __str__(self) -> str:
         return f"{self.employee_id.employee_first_name} \
             {self.employee_id.employee_last_name} - {self.requested_date}"
+
 
 
 class ShiftRequestComment(HorillaModel):

@@ -111,6 +111,8 @@ class Ticket(HorillaModel):
         bases=[
             HorillaAuditInfo,
         ],
+                table_name='ERP_HR_HelpDesk_Historical_Ticket'
+
     )
     objects = HorillaCompanyManager(
         related_company_field="employee_id__employee_work_info__company_id"

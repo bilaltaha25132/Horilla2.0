@@ -224,6 +224,7 @@ class Attendance(HorillaModel):
         bases=[
             HorillaAuditInfo,
         ],
+        table_name='ERP_HR_Attendance_Historical_Attendance'
     )
 
     class Meta:

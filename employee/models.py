@@ -621,6 +621,8 @@ class EmployeeWorkInformation(models.Model):
         bases=[
             HorillaAuditInfo,
         ],
+                        table_name="ERP_HR_Employee_Historical_EmployeeWorkInformation"
+
     )
     objects = HorillaCompanyManager()
 
@@ -804,6 +806,7 @@ class BonusPoint(HorillaModel):
         bases=[
             HorillaAuditInfo,
         ],
+        table_name='ERP_HR_Employee_Historical_BonusPoint'
     )
     objects = HorillaCompanyManager(
         related_company_field="employee_id__employee_work_info__company_id"

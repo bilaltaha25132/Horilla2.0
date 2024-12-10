@@ -360,6 +360,8 @@ class AvailableLeave(HorillaModel):
         bases=[
             HorillaAuditInfo,
         ],
+                table_name='ERP_HR_Leave_Historical_AvailableLeave'
+
     )
 
     class Meta:
@@ -557,6 +559,8 @@ class LeaveRequest(HorillaModel):
         bases=[
             HorillaAuditInfo,
         ],
+                table_name='ERP_HR_Leave_Historical_LeaveRequest'
+
     )
     created_by = models.ForeignKey(
         Employee,
@@ -981,6 +985,8 @@ class LeaveAllocationRequest(HorillaModel):
         bases=[
             HorillaAuditInfo,
         ],
+                        table_name='ERP_HR_Leave_Historical_LeaveAllocationRequest'
+
     )
     objects = HorillaCompanyManager(
         related_company_field="employee_id__employee_work_info__company_id"
@@ -1114,6 +1120,8 @@ if apps.is_installed("attendance"):
             bases=[
                 HorillaAuditInfo,
             ],
+                                table_name='ERP_HR_Leave_Historical_CompensatoryLeaveRequest'
+
         )
         objects = HorillaCompanyManager(
             related_company_field="employee_id__employee_work_info__company_id"

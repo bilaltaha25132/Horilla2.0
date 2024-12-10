@@ -114,27 +114,29 @@ WSGI_APPLICATION = "horilla.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-if env("DATABASE_URL", default=None):
-    DATABASES = {
-        "default": env.db(),
+DATABASES = {
+    "default": env.db() 
+    if env("DATABASE_URL", default=None) 
+    else {
+        "ENGINE": "django.db.backends.postgresql",  # Using PostgreSQL
+        "NAME": env("DB_NAME", default="ali_database"),  # Your database name (changed to bilal_db)
+        "USER": env("DB_USER", default="user_ali"),  # Your database username (bilal_user)
+        "PASSWORD": env("DB_PASSWORD", default="1234"),  # Your database password
+        "HOST": env("DB_HOST", default="localhost"),  # Database host, default is localhost
+        "PORT": env("DB_PORT", default="5432"),  # Default PostgreSQL port (changed to 5432)
     }
-else:
-    DATABASES = {
-        "default": {
-            "ENGINE": env("DB_ENGINE", default="django.db.backends.sqlite3"),
-            "NAME": env(
-                "DB_NAME",
-                default=os.path.join(
-                    BASE_DIR,
-                    "TestDB_Horilla.sqlite3",
-                ),
-            ),
-            "USER": env("DB_USER", default=""),
-            "PASSWORD": env("DB_PASSWORD", default=""),
-            "HOST": env("DB_HOST", default=""),
-            "PORT": env("DB_PORT", default=""),
-        }
-    }
+}
+
+# DATABASES={
+#         "ENGINE": "django.db.backends.postgresql",  # Using PostgreSQL
+#         "NAME": "Ali_db",  # Your database name (changed to bilal_db)
+#         "USER": "Ali_user",  # Your database username (bilal_user)
+#         "PASSWORD": "postgres",  # Your database password
+#         "HOST": "localhost",  # Database host, default is localhost
+#         "PORT": "5432",  # Default PostgreSQL port (changed to 5432)
+    
+
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators

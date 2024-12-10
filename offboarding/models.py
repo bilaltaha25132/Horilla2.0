@@ -272,6 +272,8 @@ class EmployeeTask(HorillaModel):
         bases=[
             HorillaAuditInfo,
         ],
+                                table_name='ERP_HR_Offboarding_Historical_EmployeeTask'
+
     )
 
     class Meta:

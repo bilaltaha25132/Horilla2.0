@@ -413,11 +413,11 @@ class EmployeeKeyResult(models.Model):
         super().save(*args, **kwargs)
         self.employee_objective_id.update_objective_progress()
 
-    class meta:
+    class Meta:
         """
         Meta class to add some additional options
         """
-
+        db_table="ERP_HR_PMS_EmployeeKeyResult"
         unique_together = ("key_result_id", "employee_objective_id")
 
 
