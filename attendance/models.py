@@ -1131,8 +1131,8 @@ class WorkRecords(models.Model):
             raise ValidationError(_("Day percentage must be between 0.0 and 1.0"))
         
 
-        class Meta:
-            db_table = 'ERP_HR_Attendance_WorkRecords' 
+    class Meta:
+        db_table = 'ERP_HR_Attendance_WorkRecords' 
 
     def __str__(self):
         return (
