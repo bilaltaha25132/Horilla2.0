@@ -60,7 +60,11 @@ class KeyResult(HorillaModel):
     target_value = models.IntegerField(null=True, blank=True, default=100)
     duration = models.IntegerField(null=True, blank=True)
     archive = models.BooleanField(default=False)
-    history = HorillaAuditLog(bases=[HorillaAuditInfo])
+    history = HorillaAuditLog(
+        bases=[HorillaAuditInfo],
+        table_name='ERP_HR_PMS_Historical_KeyResult'
+
+    )
     company_id = models.ForeignKey(
         Company,
         null=True,
@@ -124,7 +128,11 @@ class Objective(HorillaModel):
     duration = models.IntegerField(default=1, validators=[MinValueValidator(0)])
     add_assignees = models.BooleanField(default=False)
     archive = models.BooleanField(default=False)
-    history = HorillaAuditLog(bases=[HorillaAuditInfo])
+    history = HorillaAuditLog(
+        bases=[HorillaAuditInfo],
+                table_name='ERP_HR_PMS_Historical_Objective'
+
+        )
     company_id = models.ForeignKey(
         Company,
         null=True,
@@ -205,7 +213,9 @@ class EmployeeObjective(HorillaModel):
     )
     progress_percentage = models.IntegerField(default=0)
 
-    history = HorillaAuditLog(bases=[HorillaAuditInfo], related_name="history_set")
+    history = HorillaAuditLog(bases=[HorillaAuditInfo], related_name="history_set",
+        table_name='ERP_HR_PMS_Historical_EmployeeObjective'
+)
     archive = models.BooleanField(default=False)
     objects = HorillaCompanyManager("employee_id__employee_work_info__company_id")
 
@@ -270,7 +280,9 @@ class Comment(models.Model):
         blank=True,
     )
     created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
-    history = HorillaAuditLog(excluded_fields=["comment"], bases=[HorillaAuditInfo])
+    history = HorillaAuditLog(excluded_fields=["comment"], bases=[HorillaAuditInfo],
+            table_name='ERP_HR_PMS_Historical_Comment'
+)
     objects = HorillaCompanyManager(
         related_company_field="employee_id__employee_work_info__company_id"
     )
@@ -332,7 +344,9 @@ class EmployeeKeyResult(models.Model):
     target_value = models.IntegerField(null=True, blank=True, default=0)
     start_date = models.DateField(null=True, blank=True)
     end_date = models.DateField(null=True, blank=True)
-    history = HorillaAuditLog(bases=[HorillaAuditInfo])
+    history = HorillaAuditLog(bases=[HorillaAuditInfo],
+                        table_name='ERP_HR_PMS_Historical_EmployeeKeyResult'
+)
     objects = HorillaCompanyManager(
         related_company_field="employee_objective_id__objective_id__company_id"
     )

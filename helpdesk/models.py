@@ -246,6 +246,8 @@ class Attachment(HorillaModel):
 
     def __str__(self):
         return os.path.basename(self.file.name)
+    class Meta:
+        db_table='ERP_HR_Helpdesk_Attachment'
 
 
 class FAQCategory(HorillaModel):

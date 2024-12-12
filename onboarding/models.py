@@ -167,6 +167,9 @@ class CandidateTask(HorillaModel):
         bases=[
             HorillaAuditInfo,
         ],
+        table_name='ERP_HR_Onboarding_Historical_CandidateTask'
+
+        
     )
 
     def __str__(self):

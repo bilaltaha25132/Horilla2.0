@@ -441,6 +441,8 @@ class Candidate(HorillaModel):
         bases=[
             HorillaAuditInfo,
         ],
+        table_name='ERP_HR_Recruitment_Historical_Candidate'
+
     )
     sequence = models.IntegerField(null=True, default=0)
 
@@ -669,6 +671,8 @@ class RejectedCandidate(HorillaModel):
         bases=[
             HorillaAuditInfo,
         ],
+            table_name='ERP_HR_Recruitment_Historical_RejectedCandidate'
+
     )
 
     class Meta:
